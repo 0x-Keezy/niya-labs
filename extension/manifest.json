@@ -1,0 +1,55 @@
+{
+  "manifest_version": 3,
+  "name": "Niya Tools — Memecoin Companion",
+  "short_name": "Niya Tools",
+  "version": "0.1.0",
+  "description": "The intelligent companion for memecoin traders on BNB Chain. Microstructure analysis + progressive disclosure. Part of Niya Labs.",
+  "permissions": ["sidePanel", "activeTab", "storage", "tabs", "notifications"],
+  "host_permissions": [
+    "https://dexscreener.com/*",
+    "https://pancakeswap.finance/*",
+    "https://four.meme/*",
+    "https://gmgn.ai/*",
+    "https://www.gmgn.ai/*",
+    "https://api.dexscreener.com/*",
+    "https://api.geckoterminal.com/*",
+    "https://api.etherscan.io/*",
+    "https://deep-index.moralis.io/*",
+    "http://localhost:5000/*"
+  ],
+  "background": {
+    "service_worker": "src/background.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://dexscreener.com/*",
+        "https://pancakeswap.finance/*",
+        "https://four.meme/*",
+        "https://gmgn.ai/*",
+        "https://www.gmgn.ai/*"
+      ],
+      "js": ["src/content-script.ts"],
+      "run_at": "document_idle"
+    }
+  ],
+  "side_panel": {
+    "default_path": "src/sidepanel/index.html"
+  },
+  "action": {
+    "default_title": "Open Niya Tools",
+    "default_icon": {
+      "16": "icons/16.png",
+      "32": "icons/32.png",
+      "48": "icons/48.png",
+      "128": "icons/128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  }
+}

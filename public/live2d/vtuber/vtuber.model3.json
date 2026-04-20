@@ -1,0 +1,93 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "vtuber.moc3",
+		"Textures": [
+			"texture_00.png"
+		],
+		"Physics": "vtuber.physics3.json",
+		"DisplayInfo": "vtuber.cdi3.json",
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motions/Idle.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				}
+			],
+			"TapBody": [
+				{
+					"File": "motions/TapBody.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0.3
+				}
+			],
+			"Happy": [
+				{
+					"File": "motions/Happy.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0.3
+				}
+			],
+			"Sad": [
+				{
+					"File": "motions/Sad.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0.3
+				}
+			],
+			"Angry": [
+				{
+					"File": "motions/Angry.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0.3
+				}
+			],
+			"Surprised": [
+				{
+					"File": "motions/Surprised.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0.3
+				}
+			],
+			"Neutral": [
+				{
+					"File": "motions/Neutral.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0.3
+				}
+			],
+			"Nod": [
+				{
+					"File": "motions/Nod.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0.3
+				}
+			],
+			"Yes": [
+				{
+					"File": "motions/Yes.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0.3
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"ParamEyeLOpen",
+				"ParamEyeROpen"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"ParamMouthOpenY"
+			]
+		}
+	]
+}

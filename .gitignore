@@ -1,0 +1,118 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# parcel
+/.parcel-cache/
+/dist/
+
+# production
+/build
+
+# misc
+.DS_Store
+Thumbs.db
+
+# Cryptographic material — never commit, encrypted or not
+*.pem
+*.key
+*.p12
+*.pfx
+*private_key*
+*credentials*
+*secret*.txt
+
+# Windows binaries / debug dumps — never public
+*.exe
+*.dll
+*.stackdump
+*.dmp
+
+# User scratch folder (screenshots, installers, notes)
+Imagenes Claude/
+Imagenes\ Claude/
+
+# Editors / IDEs
+.vscode/
+.idea/
+.cursor/
+*.swp
+*.swo
+
+# AI tooling — Claude plans live under ~/.claude, never in the repo
+.claude/
+.local/skills/
+.local/state/
+.local/secondary_skills/
+
+# Husky internals (managed by `husky install` during `npm install`)
+.husky/_
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+working/*
+!working/.gitkeep
+
+# Sentry Config File
+.env.sentry-build-plugin
+
+# Private documentation (not for public)
+/docs-privado/
+
+# Development assets (screenshots, model exports, etc.)
+/attached_assets/
+
+# Private PRDs — business docs, never commit
+Nyla_Companion_PRD.docx
+Nyla_Labs_PRD_v1.1.docx
+*.pdf
+
+# Sensitive configuration and data files
+src/features/externalAPI/dataHandlerStorage/config.json
+src/features/externalAPI/dataHandlerStorage/chatLogs.json
+src/features/externalAPI/dataHandlerStorage/logs.json
+src/features/externalAPI/dataHandlerStorage/subconscious.json
+src/features/externalAPI/dataHandlerStorage/userInputMessages.json
+
+# Environment files with secrets
+.env
+.env.local
+.env.production
+.env.development
+
+# Replit specific
+.replit
+replit.nix
+replit.md
+.local/
+.config/
+
+# Development screenshots and images (not for public repo)
+after-fill-message-e74.png
+mouse_left.png
+mouse_right.png
+*.png
+!public/**/*.png
+!src/**/*.png
+!app-icon.png

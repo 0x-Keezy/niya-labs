@@ -1,0 +1,26 @@
+version: "3"
+services:
+    amica:
+        build: .
+        ports:
+            - "80:3000"
+        container_name: amica
+        # Restart policy: keep the app alive across crashes and host reboots.
+        restart: always
+        # Healthcheck: wget is used because the node:18-alpine base image
+        # ships it by default (curl is not installed).
+        healthcheck:
+            test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/"]
+            interval: 30s
+            timeout: 5s
+            retries: 3
+            start_period: 30s
+        # Dedicated internal network so the service can be composed with
+        # sidecars (db, cache, flaresolverr) without exposing them publicly.
+        networks:
+            - niya-internal
+
+# Top-level network definition for the Niya stack.
+networks:
+    niya-internal:
+        driver: bridge

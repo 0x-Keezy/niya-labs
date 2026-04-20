@@ -1,0 +1,70 @@
+{
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "Candy Hamster.moc3",
+    "Textures": [
+      "Candy Hamster.4096/texture_00.png",
+      "Candy Hamster.4096/texture_01.png",
+      "Candy Hamster.4096/texture_02.png",
+      "Candy Hamster.4096/texture_03.png"
+    ],
+    "Physics": "Candy Hamster.physics3.json",
+    "DisplayInfo": "Candy Hamster.cdi3.json",
+    "Expressions": [
+      { "Name": "default", "File": "default.exp3.json" },
+      { "Name": "angry", "File": "angry.exp3.json" },
+      { "Name": "bare_legs", "File": "Bare legs.exp3.json" },
+      { "Name": "black", "File": "Black.exp3.json" },
+      { "Name": "blush", "File": "blush.exp3.json" },
+      { "Name": "braids_long", "File": "Braids are long.exp3.json" },
+      { "Name": "braids_left", "File": "Braids left.exp3.json" },
+      { "Name": "braids_right", "File": "Braids right.exp3.json" },
+      { "Name": "cancel_handheld", "File": "Cancel the handheld.exp3.json" },
+      { "Name": "candy_ears", "File": "Candy ears.exp3.json" },
+      { "Name": "crying", "File": "Crying.exp3.json" },
+      { "Name": "dizzy", "File": "dizzy.exp3.json" },
+      { "Name": "ears_disappear", "File": "Ears disappear.exp3.json" },
+      { "Name": "eat_sugar", "File": "Eat sugar.exp3.json" },
+      { "Name": "flying_heads", "File": "Flying heads.exp3.json" },
+      { "Name": "flying_heads1", "File": "Flying heads1.exp3.json" },
+      { "Name": "forward_tilt", "File": "Forward tilt switch.exp3.json" },
+      { "Name": "girlish", "File": "girlish.exp3.json" },
+      { "Name": "halo", "File": "halo.exp3.json" },
+      { "Name": "left_spoon", "File": "Left spoon.exp3.json" },
+      { "Name": "love", "File": "Love.exp3.json" },
+      { "Name": "microphone", "File": "Microphone.exp3.json" },
+      { "Name": "play_games", "File": "Play games.exp3.json" },
+      { "Name": "post_hair", "File": "Post-hair.exp3.json" },
+      { "Name": "right_candy", "File": "Right candy.exp3.json" },
+      { "Name": "right_fork", "File": "Right fork.exp3.json" },
+      { "Name": "satchel", "File": "satchel.exp3.json" },
+      { "Name": "shorts", "File": "shorts.exp3.json" },
+      { "Name": "shrink", "File": "shrink.exp3.json" },
+      { "Name": "stars", "File": "stars.exp3.json" },
+      { "Name": "stickers_legs", "File": "Stickers on the legs.exp3.json" },
+      { "Name": "sweat", "File": "sweat.exp3.json" },
+      { "Name": "aura_levitating", "File": "The aura is levitating.exp3.json" },
+      { "Name": "watermark", "File": "watermark.exp3.json" }
+    ],
+    "Motions": {
+      "Idle": [
+        { "File": "1.motion3.json", "FadeInTime": 0.5, "FadeOutTime": 0.5 }
+      ]
+    }
+  },
+  "Groups": [
+    {
+      "Target": "Parameter",
+      "Name": "LipSync",
+      "Ids": []
+    },
+    {
+      "Target": "Parameter",
+      "Name": "EyeBlink",
+      "Ids": [
+        "ParamEyeLOpen",
+        "ParamEyeROpen"
+      ]
+    }
+  ]
+}

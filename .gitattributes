@@ -1,0 +1,38 @@
+# Auto-detect text files and normalize line endings
+* text=auto
+
+# Secret files: refuse to show diff content, even if accidentally staged.
+# Prevents exposure via PR reviews, git log output, CI logs.
+.env              -diff merge=union
+.env.local        -diff merge=union
+.env.*.local      -diff merge=union
+.env.production   -diff merge=union
+.env.development  -diff merge=union
+
+# Lock files — binary to reduce noise in diffs
+*.lock            binary
+package-lock.json -diff
+yarn.lock         -diff
+
+# Binary assets
+*.png             binary
+*.jpg             binary
+*.jpeg            binary
+*.gif             binary
+*.webp            binary
+*.vrm             binary
+*.glb             binary
+*.gltf            binary
+*.wasm            binary
+*.woff            binary
+*.woff2           binary
+*.ttf             binary
+*.otf             binary
+*.mp3             binary
+*.mp4             binary
+*.wav             binary
+
+# Linguist — exclude vendor/generated from language stats
+extension/dist/** linguist-generated=true
+*.min.js          linguist-generated=true
+public/ammo.wasm.js linguist-vendored=true

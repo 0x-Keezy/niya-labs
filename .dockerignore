@@ -1,0 +1,73 @@
+# Niya Labs .dockerignore
+# Keep the Docker build context small and never ship secrets into the image.
+
+# Git metadata
+.git
+.github
+.gitignore
+.gitattributes
+
+# Dependencies and build artefacts (Docker rebuilds these inside the image)
+node_modules
+.next
+dist
+build
+coverage
+.parcel-cache
+.swc
+
+# Environment files — never ship secrets into the image
+.env
+.env.local
+.env*.local
+
+# Docker meta (self-exclusion keeps context minimal)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Editor / IDE / AI tooling
+.vscode
+.idea
+.claude
+.cursor
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Documentation (README.md is kept for operators inside the image)
+docs/
+*.md
+!README.md
+
+# Test scaffolding
+__tests__/
+__mocks__/
+__fixtures__/
+
+# Chrome extension is shipped separately, not baked into the web image
+extension/
+
+# Local scratch assets (screenshots, notes, design dumps)
+attached_assets/
+Imagenes Claude/
+working/
+
+# Misc
+.DS_Store
+Thumbs.db
+*.pem
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+
+# Replit-specific
+.replit
+replit.nix
+replit.md
+.local/
+.config/

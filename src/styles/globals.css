@@ -1,0 +1,660 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Focus-visible rings — accessibility baseline. Shows a gold ring only
+   when the user is navigating by keyboard, never on mouse click. Covers
+   every button, link and interactive role across the landing + tools
+   pages with one rule, no per-component className churn. */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex="0"]:focus-visible {
+  outline: 2px solid #C9A86C;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+html, body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #FDF5E8;
+  color: #3A2E24;
+  font-family: 'Montserrat', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(circle at 10% 15%, rgba(201,168,108,0.07) 0%, transparent 40%),
+    radial-gradient(circle at 88% 40%, rgba(232,155,139,0.06) 0%, transparent 45%),
+    radial-gradient(circle at 20% 85%, rgba(133,98,146,0.06) 0%, transparent 45%);
+}
+
+/* ============================================================
+   Zine / Scrapbook aesthetic — paper textures, washi tape,
+   polaroids, hand-drawn stamps, handwritten accents. Ported
+   from the v5-zine Claude Design handoff bundle.
+   ============================================================ */
+
+/* Font-family helpers */
+/* Cabinet Grotesk (Fontshare) — neo-grotesque display sans that replaces
+ * Fraunces / Sentient after two serif picks were rejected. Taste-Skill
+ * recommended. Class name kept as `.font-serif-zine` to avoid churn across
+ * the 27 call-sites in index.tsx; rename is a follow-up. The tight kerning
+ * compensates for the missing serif terminals so titles still feel anchored
+ * next to Caveat (handwriting) and Kalam (marker). Cabinet has no true
+ * italic — the inline `fontStyle: italic` on a few accents ("tuber",
+ * "hamster's head") falls back to synthetic slant, which reads clean on a
+ * geometric sans. */
+.font-serif-zine  { font-family: 'Cabinet Grotesk', system-ui, sans-serif; letter-spacing: -0.02em; }
+.font-hand        { font-family: 'Caveat', cursive; }
+.font-marker      { font-family: 'Kalam', cursive; }
+.font-mono-zine   { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+/* Focus-visible override for zine pages — dashed gold instead of solid ring */
+.zine-scope a:focus-visible,
+.zine-scope button:focus-visible {
+  outline: 1.5px dashed #B8913F;
+  outline-offset: 4px;
+}
+
+/* Paper textures — each one simulates a different paper stock */
+.paper {
+  background: #FFFBF5;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(122,100,80,0.02) 0 1px, transparent 1px 6px),
+    radial-gradient(circle at 30% 20%, rgba(122,100,80,0.05), transparent 55%);
+  box-shadow:
+    0 1px 0 rgba(0,0,0,0.04),
+    0 10px 30px -18px rgba(58,46,36,0.35),
+    0 2px 5px -3px rgba(58,46,36,0.2);
+}
+
+.paper-y {
+  background: #F8EAC8;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(122,100,80,0.04) 0 1px, transparent 1px 22px),
+    radial-gradient(circle at 30% 20%, rgba(122,100,80,0.05), transparent 55%);
+}
+
+.paper-graph {
+  background: #FFFBF5;
+  background-image:
+    linear-gradient(rgba(184,145,63,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,145,63,0.1) 1px, transparent 1px);
+  background-size: 14px 14px;
+  box-shadow: 0 8px 24px -14px rgba(58,46,36,0.35);
+}
+
+/* Washi tape strips — 4 color variants */
+.tape {
+  position: absolute;
+  height: 28px;
+  width: 110px;
+  background: rgba(232,212,168,0.7);
+  box-shadow: 0 1px 2px rgba(58,46,36,0.12);
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.35) 0 3px, transparent 3px 7px);
+}
+.tape-pink {
+  background: rgba(232,155,139,0.55);
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.3) 0 3px, transparent 3px 7px);
+}
+.tape-violet {
+  background: rgba(133,98,146,0.45);
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.3) 0 3px, transparent 3px 7px);
+}
+.tape-gold {
+  background: rgba(184,145,63,0.55);
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.35) 0 3px, transparent 3px 7px);
+}
+
+/* Pushpin elements */
+.pin {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #E89B8B 0%, #C47070 60%, #8B4A4A 100%);
+  box-shadow: 0 2px 3px rgba(58,46,36,0.4), inset 0 -1px 0 rgba(0,0,0,0.3);
+}
+.pin-gold   { background: radial-gradient(circle at 35% 30%, #F0D9B0 0%, #B8913F 60%, #6B5019 100%); }
+.pin-violet { background: radial-gradient(circle at 35% 30%, #BFA2C8 0%, #856292 60%, #4A334F 100%); }
+
+/* Polaroid — white border + bottom caption area + deep drop shadow */
+.polaroid {
+  background: #FFFBF5;
+  padding: 10px 10px 36px;
+  box-shadow:
+    0 1px 0 rgba(0,0,0,0.05),
+    0 14px 30px -16px rgba(58,46,36,0.5),
+    0 4px 8px -4px rgba(58,46,36,0.25);
+}
+
+/* Stamps — rectangular rubber-ink look */
+.stamp {
+  display: inline-block;
+  border: 2px solid #B8913F;
+  color: #B8913F;
+  padding: 6px 14px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  background: transparent;
+  font-weight: 700;
+}
+.stamp-red    { border-color: #C47070; color: #C47070; }
+.stamp-violet { border-color: #856292; color: #856292; }
+.stamp-round {
+  border: 2.5px solid #C47070;
+  color: #C47070;
+  border-radius: 50%;
+  padding: 14px 10px;
+  font-size: 10px;
+  line-height: 1.1;
+  text-align: center;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px #C47070;
+}
+
+/* Handwritten stickers — pill-shaped, Kalam font */
+.sticker {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-family: 'Kalam', cursive;
+  font-weight: 700;
+  font-size: 13px;
+  color: #3A2E24;
+  background: #F8EAC8;
+  box-shadow: 0 2px 4px rgba(58,46,36,0.15);
+  border: 1.5px solid rgba(184,145,63,0.4);
+}
+
+/* Highlighter marks — overlaid on text */
+.hl {
+  background: linear-gradient(180deg, transparent 55%, rgba(232,212,168,0.7) 55%, rgba(232,212,168,0.7) 92%, transparent 92%);
+  padding: 0 2px;
+}
+.hl-pink {
+  background: linear-gradient(180deg, transparent 55%, rgba(232,155,139,0.55) 55%, rgba(232,155,139,0.55) 92%, transparent 92%);
+  padding: 0 2px;
+}
+
+/* Scribble-circle — pen-drawn oval drawn around a single word. Used in
+   the "niya says" pull quote to emphasize "You" with a hand-drawn coral
+   circle, as if someone underlined it in red pen in the zine margin. */
+.scribble-circle {
+  position: relative;
+  display: inline-block;
+  margin: 0 0.25em 0 0.1em;
+  padding: 0 0.15em;
+}
+.scribble-circle::after {
+  content: "";
+  position: absolute;
+  inset: -4px -2px;
+  border: 2px solid #C47070;
+  border-radius: 50%;
+  transform: rotate(-3deg);
+  pointer-events: none;
+}
+
+/* Doodle underline — inline SVG wave */
+.doodle-under {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 8'><path d='M2 5 Q 20 1 40 4 T 80 4 T 118 4' fill='none' stroke='%23B8913F' stroke-width='1.8' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: bottom left;
+  background-size: 100% 7px;
+  padding-bottom: 8px;
+}
+
+/* Sparkle twinkle — reuses the existing zine twk keyframe with slight rotation */
+@keyframes zine-twinkle {
+  0%, 100% { opacity: 0.35; transform: scale(0.9) rotate(0); }
+  50%      { opacity: 0.95; transform: scale(1.15) rotate(15deg); }
+}
+.zine-spark {
+  position: absolute;
+  pointer-events: none;
+  color: #B8913F;
+  animation: zine-twinkle 6s ease-in-out infinite;
+}
+
+/* Live pulse dot */
+@keyframes zine-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+.live-dot {
+  animation: zine-pulse 1.4s ease-in-out infinite;
+}
+
+
+.niya-stream-frame {
+  background: #000;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.niya-chat-panel {
+  background: #FFFEF9;
+  border-radius: 1rem;
+  border: 2px solid #E8D4A8;
+  overflow: hidden;
+}
+
+.niya-info-panel {
+  background: #FFFEF9;
+  border-radius: 1rem;
+  border: 2px solid #E8D4A8;
+}
+
+.text-niya-gold {
+  color: #D4A853;
+}
+
+.bg-niya-gold {
+  background-color: #F5D89A;
+}
+
+.border-niya-gold {
+  border-color: #C9A86C;
+}
+
+.niya-btn-primary {
+  background-color: #F5D89A;
+  color: #6B5344;
+  font-weight: 700;
+  border: 2px solid #D4A853;
+  transition: all 0.2s ease;
+}
+
+.niya-btn-primary:hover {
+  background-color: #E8C77B;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@layer utilities {
+  .scroll-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scroll-hidden::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.pixi-sound,
+div.pixi-sound {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+#__next-build-watcher {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   Niya Tools — panel frame, inner, dividers, section shells,
+   verdict dark inset, scale bar, findings badges, leaders…
+   Faithfully ported from extension/src/styles/globals.css so
+   the /tools web route renders pixel-perfect identical to the
+   Chrome extension side panel. Component classes like
+   `.niya-panel-frame`, `.niya-dark-inset`, `.niya-scale-bar`,
+   `.niya-finding-badge`, etc. are used by the ported React
+   components under src/components/niyaTools/sidepanel/.
+   ============================================================ */
+
+/* Outer frame: 22px radius, double shadow + gold outline */
+.niya-panel-frame {
+  background: #FFFBF5;
+  border-radius: 22px;
+  padding: 6px;
+  box-shadow:
+    0 40px 80px -30px rgba(122,91,54,0.35),
+    0 0 0 1px rgba(232,205,168,0.5);
+  position: relative;
+}
+
+/* Inner: 18px radius, dashed border, cream-drip texture */
+.niya-panel-inner {
+  border: 1.5px dashed #EACDA0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #FFFBF5;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(244,167,140,0.10) 0%, transparent 35%),
+    radial-gradient(circle at 85% 40%, rgba(232,205,168,0.14) 0%, transparent 40%),
+    radial-gradient(circle at 35% 85%, rgba(255,228,208,0.18) 0%, transparent 45%),
+    radial-gradient(circle at 1px 1px, rgba(180,120,70,0.06) 1px, transparent 0);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 14px 14px;
+}
+
+.niya-section-divider {
+  border-top: 1.5px dashed #F0D9B0;
+  margin: 0;
+}
+
+.niya-section-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 14px;
+}
+.niya-section-label .l {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #1F1F1F;
+}
+.niya-section-label .r {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: #9B9B9B;
+}
+
+/* Rug risk card — dark inset (matches extension). The landing has no
+   dark mode but the verdict card is an intentional contrast moment: it
+   reads like a cinema frame inside an editorial page, which draws the
+   eye straight to the risk score. Exactly mirrors
+   extension/src/styles/globals.css so the web + extension feel the same
+   at this single point. */
+.niya-dark-inset {
+  background: #14161C;
+  background-image: radial-gradient(600px 200px at 0% 0%, rgba(232,155,139,0.18), transparent 60%);
+  color: #F5E9D4;
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 10px 28px -12px rgba(20,22,28,0.45), inset 0 0 0 1px rgba(245,233,212,0.06);
+}
+
+/* Scale bar — risk gradient */
+.niya-scale-bar {
+  position: relative;
+  height: 7px;
+  border-radius: 999px;
+  background: linear-gradient(90deg,
+    #22C55E 0%, #22C55E 28%,
+    #D9B160 42%, #E8A853 58%,
+    #E89B8B 82%, #E89B8B 100%);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+.niya-scale-marker {
+  position: absolute;
+  top: -5px;
+  width: 3px; height: 17px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.15), 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Leader dots for ledger rows */
+.niya-leader-dot {
+  flex: 1;
+  border-bottom: 1px dotted #9B9B9B;
+  margin-bottom: 4px;
+  opacity: 0.4;
+}
+
+/* Pulsing dot (tier chip) */
+.niya-pulsing-dot {
+  width: 6px; height: 6px; border-radius: 999px;
+  background: #E89B8B;
+  box-shadow: 0 0 0 2px rgba(232,155,139,0.3);
+  animation: niya-pulse 2.4s ease-in-out infinite;
+}
+@keyframes niya-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
+}
+
+/* Signature footer rotation */
+.niya-signature {
+  transform: rotate(-3deg);
+  display: inline-block;
+  padding: 2px 8px 4px;
+  line-height: 1;
+  border-bottom: 2.5px solid #E89B8B;
+}
+
+/* Finding badge — A/B/C/D letter tile */
+.niya-finding-badge {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  text-align: center;
+  width: 22px; height: 22px;
+  border-radius: 8px;
+  background: #FFFBF5;
+  border: 1px solid #F0D9B0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.niya-finding-badge.crit { color: #E67080; border-color: #F3A5AD; }
+.niya-finding-badge.warn { color: #E8A853; border-color: #EDC97F; }
+.niya-finding-badge.good { color: #16A34A; border-color: #8BDCA4; }
+
+/* Experimental toggle switch */
+.niya-exp-switch {
+  position: relative;
+  width: 34px;
+  height: 18px;
+  background: #E8CFA8;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+  border: none;
+}
+.niya-exp-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background: #FFFBF5;
+  border-radius: 50%;
+  transition: left 0.2s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+.niya-exp-switch.on { background: #856292; }
+.niya-exp-switch.on::after { left: 18px; }
+
+/* Whisper feed auto-scroll */
+.whisper-scroll {
+  animation: whisper-up 20s linear infinite;
+}
+@keyframes whisper-up {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+/* Refresh-button spinner used by MicrostructureLedger. Keyframe was
+   referenced inline (`animation: niya-spin 0.9s linear infinite`) but
+   never defined in the web CSS — we add it here with a slower, softer
+   ease-in-out to match the landing's ambient motion feel (1.8s instead
+   of 0.9s linear). */
+@keyframes niya-spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Shimmer skeleton */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.niya-shimmer {
+  background: linear-gradient(90deg, #F0D9B0 25%, #FDF0D4 37%, #F0D9B0 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+/* Stagger delays for findings entrance */
+.niya-stagger-1 { animation-delay: 0ms; }
+.niya-stagger-2 { animation-delay: 60ms; }
+.niya-stagger-3 { animation-delay: 120ms; }
+.niya-stagger-4 { animation-delay: 180ms; }
+.niya-stagger-5 { animation-delay: 240ms; }
+.niya-stagger-6 { animation-delay: 300ms; }
+.niya-stagger-7 { animation-delay: 360ms; }
+.niya-stagger-8 { animation-delay: 420ms; }
+
+/* --- Niya Labs landing ambient animations (sparkles + slow drift) --- */
+@keyframes niya-sparkle-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(0.9); opacity: 0.55; }
+  25%      { transform: translate3d(18px, -28px, 0) scale(1.15); opacity: 0.95; }
+  50%      { transform: translate3d(-14px, -48px, 0) scale(1.25); opacity: 1; }
+  75%      { transform: translate3d(24px, -22px, 0) scale(1.05); opacity: 0.75; }
+}
+
+@keyframes niya-sparkle-twinkle {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50%      { opacity: 1; transform: scale(1.3); }
+}
+
+.niya-sparkle {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 9999px;
+  /* Brighter, warmer gold glow with a tighter core so the sparkles read
+     as little stars instead of soft smudges. */
+  background: radial-gradient(
+    circle,
+    rgba(255,220,140,1) 0%,
+    rgba(212,168,83,0.85) 35%,
+    rgba(232,212,168,0.4) 60%,
+    transparent 78%
+  );
+  box-shadow: 0 0 12px rgba(212,168,83,0.55);
+  will-change: transform, opacity;
+}
+
+@keyframes niya-blob-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  33%      { transform: translate3d(60px, -40px, 0); }
+  66%      { transform: translate3d(-40px, 30px, 0); }
+}
+
+.niya-blob {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 9999px;
+  filter: blur(70px);
+  will-change: transform;
+  opacity: 0.75;
+}
+
+/* Mobile: ambient sparkles/blobs feel oversized on 320-640px viewports
+   (blur 70px gigante, sparkles 14px+). Escalamos para que la estética
+   se mantenga proporcional en phones. */
+@media (max-width: 640px) {
+  .niya-sparkle {
+    transform: scale(0.65);
+    box-shadow: 0 0 8px rgba(212,168,83,0.45);
+  }
+  .niya-blob {
+    filter: blur(40px);
+    opacity: 0.5;
+  }
+}
+
+/* ============================================================
+ * Zine mobile override (< 768 px)
+ * ------------------------------------------------------------
+ * The zine landing uses washi-tape decorations positioned with
+ * negative offsets (top: -14) and cards rotated ±3°, both of
+ * which expand the bounding box horizontally. On narrow phones
+ * (360-414 px) this pushes elements outside the viewport and
+ * breaks layout despite `overflow-x: hidden` on body.
+ *
+ * Below the md breakpoint we hide the tape entirely and
+ * neutralize card rotations so the page renders cleanly without
+ * sacrificing the zine personality on desktop.
+ * ============================================================ */
+@media (max-width: 767px) {
+  .tape,
+  .tape-pink,
+  .tape-violet,
+  .tape-gold {
+    display: none !important;
+  }
+
+  .zine-scope [style*="transform: rotate"] {
+    transform: none !important;
+  }
+
+  /* Ensure every zine section clips any remaining decorative
+   * overflow as a defense in depth. */
+  .zine-scope section,
+  .zine-scope > div {
+    overflow-x: clip;
+  }
+}
+
+/* ============================================================
+ * Reduced motion — respect the user's OS-level accessibility
+ * preference. When `prefers-reduced-motion: reduce` is set,
+ * neutralize every CSS keyframe + JS-driven animation to a
+ * single near-instant frame so motion-sensitive users see the
+ * final visual state without parallax, pulse or drift.
+ *
+ * Framer Motion components ALSO honor this flag via the
+ * `useReducedMotion()` hook (see each animated component), so
+ * this block is belt-and-braces coverage for pure-CSS effects.
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

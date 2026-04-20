@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Niya Labs pre-commit hook
+# -------------------------
+# 1) Whole-project typecheck — per-file tsc doesn't catch cross-file
+#    regressions in a strict-mode TS graph. Incremental .tsbuildinfo keeps
+#    this fast after the first run.
+# 2) lint-staged — format-only (prettier) on staged files.
+# 3) Test suite — `--passWithNoTests` lets doc-only commits through.
+#
+# To bypass in an emergency: `git commit --no-verify`. Use sparingly — the
+# CI workflow (.github/workflows/test.yml) runs the same gates.
+
+echo "[husky] typecheck..."
+npx tsc --noEmit -p tsconfig.json || exit 1
+
+echo "[husky] lint-staged (prettier on staged files)..."
+npx lint-staged || exit 1
+
+echo "[husky] tests..."
+npm test -- --passWithNoTests || exit 1

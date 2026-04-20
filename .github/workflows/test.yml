@@ -1,0 +1,43 @@
+# CI gate for Niya Labs.
+# Runs on every push and PR targeting main. Ensures that:
+#   1. The codebase typechecks cleanly (tsc --noEmit)
+#   2. The Jest unit test suite passes with coverage
+# Coverage thresholds are enforced by jest.config.mjs (starter floor, ratchet up over time).
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Run tests (with coverage)
+        run: npm run test:ci -- --coverage
+
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+          if-no-files-found: ignore
+          retention-days: 7
