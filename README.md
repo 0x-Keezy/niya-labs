@@ -317,9 +317,17 @@ A small NL parser (`extension/src/lib/actionRules.ts`) turns plain English into 
 - Chrome MV3, sideload-only (Web Store listing is a v0.2 goal)
 - Auto-detects CA on DexScreener / PancakeSwap / Four.meme / GMGN
 - SPA-navigation aware (patches `pushState` + `popstate`)
+- Deep-link via `?ca=0x...` URL query for sharing specific tokens
 </td>
 </tr>
 </table>
+
+<p align="center">
+  <img src="docs/screenshots/extension-sidepanel.png" alt="Niya Tools Chrome extension side panel — verdict, findings, price chart" width="500"/>
+</p>
+<p align="center">
+  <sub><i>Side panel in action on a Four.meme token — PRO tier wallet, rug risk <b>10/100</b>, 4 on-chain findings, price chart with Analyst Mode ready to toggle.</i></sub>
+</p>
 
 ---
 
