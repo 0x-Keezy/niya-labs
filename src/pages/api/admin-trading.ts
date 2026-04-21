@@ -13,6 +13,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { timingSafeEqualStr } from '@/features/auth/timingSafeEqual';
 import { verifyAdminSession } from '@/features/auth/adminSession';
+import { enforceRateLimit, clientIdentifier } from '@/features/auth/rateLimit';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const ELIZAOS_URL = process.env.ELIZAOS_URL || '';
@@ -293,8 +294,24 @@ export default async function handler(
     //   Fallback: the old body-password flow, kept so curl / ops scripts that
     //             pre-date the cookie migration keep working. Remove the
     //             fallback once no caller relies on it.
+    //
+    // Security: the password-fallback path is rate-limited at 5 attempts /
+    // minute / IP to prevent brute-force of ADMIN_PASSWORD. The cookie path
+    // bypasses this because a valid session already proved identity.
     const sessionValid = await verifyAdminSession(req);
     if (!sessionValid) {
+      // Rate limit password attempts BEFORE calling verifyAdmin, so a flood
+      // of requests can't CPU-burn on timing-safe compares.
+      const rl = await enforceRateLimit(req, res, {
+        endpoint: 'admin-trading/password-auth',
+        limit: 5,
+        windowMs: 60_000,
+      });
+      if (!rl.allowed) {
+        // enforceRateLimit already wrote a 429 response.
+        return;
+      }
+
       const authResult = await verifyAdmin(password || '');
       if (!authResult.valid) {
         return res.status(401).json({

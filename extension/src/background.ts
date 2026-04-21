@@ -78,7 +78,35 @@ const tabCa: Map<number, DetectedAddress> = new Map();
 
 chrome.runtime.onMessage.addListener(
   (msg: BgMessage, sender, sendResponse) => {
+    // Security: only accept messages from THIS extension (our own content
+    // scripts or side panel). Reject anything from other extensions or web
+    // pages that managed to get our extension ID and tried to spoof a
+    // `ca-detected` event. `sender.id` is set by Chrome to the originating
+    // extension's ID; it cannot be forged from a web page.
+    if (sender.id !== chrome.runtime.id) {
+      console.warn(
+        '[Niya Tools bg] rejecting message from external sender:',
+        sender.id,
+      );
+      return false;
+    }
+
     if (msg.type === 'ca-detected') {
+      // Defense in depth: validate the payload shape before trusting it.
+      // A compromised content-script or a bug could otherwise poison the
+      // per-tab cache with garbage that later crashes the side panel.
+      const p = msg.payload;
+      if (
+        !p ||
+        typeof p.ca !== 'string' ||
+        !/^0x[a-fA-F0-9]{40}$/.test(p.ca) ||
+        typeof p.source !== 'string' ||
+        typeof p.detectedAt !== 'number'
+      ) {
+        console.warn('[Niya Tools bg] rejecting malformed ca-detected payload');
+        return false;
+      }
+
       const tabId = sender.tab?.id;
       if (tabId !== undefined) {
         tabCa.set(tabId, msg.payload);

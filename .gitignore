@@ -115,4 +115,5 @@ mouse_right.png
 *.png
 !public/**/*.png
 !src/**/*.png
+!docs/**/*.png
 !app-icon.png

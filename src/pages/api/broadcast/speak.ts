@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import { getDb } from '@/features/liveShow/db';
 import { broadcastAudio, avatarState } from '@/features/liveShow/schema';
 import { eq, desc, sql } from 'drizzle-orm';
+import { safeError } from '@/lib/apiError';
 
 interface CachedAudio {
   audioBase64: string;
@@ -283,7 +284,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return;
       } catch (e: any) {
         console.error('[Broadcast] SSE init error:', e.message);
-        return res.status(500).json({ error: e.message });
+        return safeError(res, e, { context: 'broadcast/speak:sse-init', publicMessage: 'Broadcast init failed' });
       }
     }
 
@@ -301,7 +302,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           recentBroadcasts: parseInt(String(recentCount[0]?.count || '0')),
         });
       } catch (e: any) {
-        return res.status(500).json({ error: e.message });
+        return safeError(res, e, { context: 'broadcast/speak:listen', publicMessage: 'Broadcast listen failed' });
       }
     }
 
@@ -345,7 +346,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           console.log(`[TTS Cache] Stored new entry, cache size: ${ttsCache.size}`);
         } catch (err: any) {
           console.error('[TTS] Generation failed:', err.message);
-          return res.status(500).json({ error: err.message });
+          return safeError(res, err, { context: 'broadcast/speak:db', publicMessage: 'Broadcast DB error' });
         }
       }
 
@@ -412,7 +413,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
       } catch (e: any) {
         console.error('[Broadcast] DB save error:', e.message);
-        return res.status(500).json({ error: e.message });
+        return safeError(res, e, { context: 'broadcast/speak', publicMessage: 'Broadcast operation failed' });
       }
     }
 
@@ -427,7 +428,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .where(eq(avatarState.id, state.id));
         return res.status(200).json({ success: true });
       } catch (e: any) {
-        return res.status(500).json({ error: e.message });
+        return safeError(res, e, { context: 'broadcast/speak', publicMessage: 'Broadcast operation failed' });
       }
     }
 
@@ -450,7 +451,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         return res.status(200).json({ success: true });
       } catch (e: any) {
-        return res.status(500).json({ error: e.message });
+        return safeError(res, e, { context: 'broadcast/speak', publicMessage: 'Broadcast operation failed' });
       }
     }
 

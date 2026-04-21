@@ -184,20 +184,47 @@ export default function Chart({
       const up = candle.close >= candle.open;
       const color = up ? NIYA_THEME.up : NIYA_THEME.down;
       tooltip.style.display = 'block';
-      tooltip.innerHTML = `
-        <div class="text-[10px] uppercase tracking-wider text-niya-ink-2">
-          ${formatTimestamp(candle.time)}
-        </div>
-        <div class="mt-1 grid grid-cols-2 gap-x-3 gap-y-0.5 font-mono text-[10px]">
-          <span class="text-niya-ink-2">O</span><span style="color:${color}">${compactPrice(candle.open)}</span>
-          <span class="text-niya-ink-2">H</span><span style="color:${color}">${compactPrice(candle.high)}</span>
-          <span class="text-niya-ink-2">L</span><span style="color:${color}">${compactPrice(candle.low)}</span>
-          <span class="text-niya-ink-2">C</span><span style="color:${color}">${compactPrice(candle.close)}</span>
-        </div>
-        <div class="mt-1 text-[10px] text-niya-ink-2">
-          VOL <span class="text-niya-ink">${formatUsd(candle.volume * candle.close)}</span>
-        </div>
-      `;
+
+      // Defense in depth: build the tooltip with DOM APIs (textContent only),
+      // not innerHTML. If an upstream OHLCV API (Moralis, GeckoTerminal)
+      // were ever compromised and returned HTML-shaped strings in price
+      // fields, textContent ensures they render as inert text. `color` is
+      // a safe enum from NIYA_THEME, so using it in style is still ok.
+      const makeRow = (label: string, value: string) => {
+        const lbl = document.createElement('span');
+        lbl.className = 'text-niya-ink-2';
+        lbl.textContent = label;
+        const val = document.createElement('span');
+        val.style.color = color;
+        val.textContent = value;
+        return [lbl, val];
+      };
+
+      tooltip.replaceChildren();
+
+      const ts = document.createElement('div');
+      ts.className = 'text-[10px] uppercase tracking-wider text-niya-ink-2';
+      ts.textContent = formatTimestamp(candle.time);
+      tooltip.appendChild(ts);
+
+      const grid = document.createElement('div');
+      grid.className = 'mt-1 grid grid-cols-2 gap-x-3 gap-y-0.5 font-mono text-[10px]';
+      grid.append(
+        ...makeRow('O', compactPrice(candle.open)),
+        ...makeRow('H', compactPrice(candle.high)),
+        ...makeRow('L', compactPrice(candle.low)),
+        ...makeRow('C', compactPrice(candle.close)),
+      );
+      tooltip.appendChild(grid);
+
+      const vol = document.createElement('div');
+      vol.className = 'mt-1 text-[10px] text-niya-ink-2';
+      const volLabel = document.createTextNode('VOL ');
+      const volValue = document.createElement('span');
+      volValue.className = 'text-niya-ink';
+      volValue.textContent = formatUsd(candle.volume * candle.close);
+      vol.append(volLabel, volValue);
+      tooltip.appendChild(vol);
     };
     chart.subscribeCrosshairMove(handleCrosshair);
 

@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { writeFile } from '@/features/externalAPI/utils/apiHelper';
 import { chatLogsFilePath, handleGetChatLogs, handleGetConfig, handleGetLogs, handleGetSubconscious, handleGetUserInputMessages, handlePostChatLogs, handlePostConfig, handlePostLogs, handlePostSubconscious, handlePostUserInputMessages, logsFilePath, subconsciousFilePath, userInputMessagesFilePath } from '@/features/externalAPI/dataHelper';
+import { safeError } from '@/lib/apiError';
 
 // Clear data on startup
 writeFile(subconsciousFilePath, []);
@@ -26,7 +27,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         return res.status(405).end(`Method ${req.method} Not Allowed`);
     }
   } catch (error) {
-    return res.status(500).json({ error: error });
+    return safeError(res, error, {
+      context: 'dataHandler',
+      publicMessage: 'Data operation failed',
+    });
   }
 }
 

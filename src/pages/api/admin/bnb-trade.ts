@@ -3,6 +3,7 @@ import { bnbTradingService, TradeResult } from '@/features/trading/bnbTradingSer
 import { timingSafeEqualStr } from '@/features/auth/timingSafeEqual';
 import { verifyAdminSession } from '@/features/auth/adminSession';
 import { enforceRateLimit } from '@/features/auth/rateLimit';
+import { safeError } from '@/lib/apiError';
 
 interface TradeRequest {
   action: 'buy' | 'sell' | 'quote' | 'status' | 'guardrails';
@@ -225,8 +226,10 @@ export default async function handler(
       default:
         return res.status(400).json({ success: false, error: 'Invalid action' });
     }
-  } catch (error: any) {
-    console.error('[BNB Trade API] Error:', error);
-    return res.status(500).json({ success: false, error: error.message || 'Internal error' });
+  } catch (error: unknown) {
+    return safeError(res, error, {
+      context: 'admin/bnb-trade',
+      publicMessage: 'Trade execution failed',
+    });
   }
 }
