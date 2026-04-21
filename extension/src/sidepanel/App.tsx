@@ -85,16 +85,47 @@ export default function App() {
 
   // Background message wiring.
   useEffect(() => {
-    const req: BgMessage = { type: 'get-current-ca' };
-    chrome.runtime.sendMessage(req).then((resp: BgMessage | undefined) => {
-      if (resp && resp.type === 'current-ca') {
-        setCurrentCa(resp.payload);
+    // Deep-link support: if the URL carries ?ca=0x... we seed the store
+    // synchronously and SKIP the background query. This makes opening the
+    // side panel HTML directly in a tab ("chrome-extension://.../index.html
+    // ?ca=0x0e09...") work as a shareable link — useful for README
+    // screenshots, issue repros, and posting "look what Niya says about
+    // this CA" without forcing the recipient to navigate to DexScreener
+    // first. Also guards against the tabs.onActivated broadcaster
+    // wiping state with a null payload when the side-panel tab is focused.
+    let hydratedFromUrl = false;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlCa = params.get('ca');
+      if (urlCa && /^0x[a-fA-F0-9]{40}$/.test(urlCa)) {
+        setCurrentCa({
+          ca: urlCa.toLowerCase(),
+          source: 'url',
+          detectedAt: Date.now(),
+        });
+        hydratedFromUrl = true;
       }
-    });
+    } catch {
+      /* non-browser env */
+    }
+
+    if (!hydratedFromUrl) {
+      const req: BgMessage = { type: 'get-current-ca' };
+      chrome.runtime.sendMessage(req).then((resp: BgMessage | undefined) => {
+        if (resp && resp.type === 'current-ca') {
+          setCurrentCa(resp.payload);
+        }
+      });
+    }
 
     const listener = (msg: BgMessage) => {
       if (msg.type === 'ca-detected' || msg.type === 'current-ca') {
-        setCurrentCa(msg.type === 'ca-detected' ? msg.payload : msg.payload);
+        const next = msg.type === 'ca-detected' ? msg.payload : msg.payload;
+        // Don't let a null broadcast (e.g. tabs.onActivated fires for the
+        // side-panel tab itself, which has no cached CA) wipe a state we
+        // seeded from the URL deep-link.
+        if (next === null && hydratedFromUrl) return;
+        setCurrentCa(next);
       }
     };
     chrome.runtime.onMessage.addListener(listener);

@@ -3,7 +3,7 @@
 
 export type Tier = 'scout' | 'analyst' | 'pro';
 
-export type HostSite = 'dexscreener' | 'pancakeswap' | 'fourmeme' | 'gmgn' | 'unknown';
+export type HostSite = 'dexscreener' | 'pancakeswap' | 'fourmeme' | 'gmgn' | 'url' | 'unknown';
 
 /** A BSC contract address detected from the host page URL. */
 export interface DetectedAddress {
