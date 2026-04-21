@@ -323,10 +323,10 @@ A small NL parser (`extension/src/lib/actionRules.ts`) turns plain English into 
 </table>
 
 <p align="center">
-  <img src="docs/screenshots/extension-sidepanel.png" alt="Niya Tools Chrome extension side panel — verdict, findings, price chart" width="500"/>
+  <img src="docs/screenshots/extension-sidepanel.png" alt="Niya Tools Chrome extension side panel — verdict, findings, price chart" width="720"/>
 </p>
 <p align="center">
-  <sub><i>Side panel in action on a Four.meme token — PRO tier wallet, rug risk <b>10/100</b>, 4 on-chain findings, price chart with Analyst Mode ready to toggle.</i></sub>
+  <sub><i>Side panel in action on a Four.meme token — PRO tier wallet, rug risk <b>10/100</b>, 4 on-chain findings (holder concentration, LP lock, token age, honeypot), price chart with Analyst Mode ready to toggle.</i></sub>
 </p>
 
 ---
