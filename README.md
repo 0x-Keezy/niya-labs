@@ -76,8 +76,19 @@ A BNB-Chain microstructure analyzer. Paste a contract, get a rug-risk verdict in
 
 > Think of it as **one project, two surfaces.** The VTuber is the fun face; the analyzer is the serious due-diligence tool. Both speak the same brand voice (Niya, the candy-loving AI companion on BNB Chain). Both respect the same palette. Both are BNB-first.
 
-![Niya Labs hub](docs/screenshots/hero.png)
-<sub><i>The Niya Labs hub — click either card to begin. (<a href="docs/screenshots/README.md">Screenshots are placeholders; upload real captures per the guide</a>.)</i></sub>
+![Niya Labs hub — landing page hero](docs/screenshots/hero.png)
+<sub><i>The Niya Labs landing — brand strip, ticker, hero H1, Inside TOC. Click either card to begin.</i></sub>
+
+<details>
+<summary><strong>📖 See the full landing page (scroll preview)</strong></summary>
+
+<p align="center">
+  <img src="docs/screenshots/full-landing.png" alt="Full Niya Labs landing page scroll" width="600"/>
+</p>
+
+<sub><i>Top to bottom: hero → cover collage → ticket stub → character sheet → a typical stream → Niya Tools how it works → verdict preview → back cover.</i></sub>
+
+</details>
 
 ---
 
