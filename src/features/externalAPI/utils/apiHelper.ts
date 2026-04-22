@@ -55,10 +55,19 @@ export const readFile = (filePath: string, defaultValue: any = null): any => {
 };
 
 export const writeFile = (filePath: string, content: any): void => {
+  // RAILWAY DEPLOY: filesystem writes disabled in production (ephemeral container)
+  // Reads still work (reads baked-in JSON from the build). Writes are no-ops to avoid ENOENT on /app.
+  // TODO post-hackathon: migrate to Postgres table via Drizzle.
+  if (process.env.NODE_ENV === "production") {
+    return;
+  }
   try {
     fs.writeFileSync(filePath, JSON.stringify(content, null, 2), "utf8");
   } catch (error) {
     console.error(`Error writing file at ${filePath}:`, error);
-    throw new Error(`Failed to write file: ${error}`);
+    // Swallow in production-like envs, throw only in dev
+    if (process.env.NODE_ENV !== "production") {
+      throw new Error(`Failed to write file: ${error}`);
+    }
   }
 };
