@@ -19,5 +19,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "electron"]
+  "exclude": ["node_modules", "electron", "extension"]
 }

@@ -27,6 +27,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate paths (creates src/paths.ts — gitignored but needed for typecheck)
+        run: npm run generate:paths
+
       - name: Typecheck
         run: npx tsc --noEmit
 

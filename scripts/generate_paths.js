@@ -17,9 +17,9 @@ const animationList = [].concat(
 );
 
 let str = "";
-str += `export const bgImages = ${JSON.stringify(bgImages)};\n`;
-str += `export const vrmList = ${JSON.stringify(vrmList)};\n`;
-str += `export const speechT5SpeakerEmbeddingsList = ${JSON.stringify(speechT5SpeakerEmbeddingsList)};\n`;
-str += `export const animationList = ${JSON.stringify(animationList)};\n`;
+str += `export const bgImages: string[] = ${JSON.stringify(bgImages)};\n`;
+str += `export const vrmList: string[] = ${JSON.stringify(vrmList)};\n`;
+str += `export const speechT5SpeakerEmbeddingsList: string[] = ${JSON.stringify(speechT5SpeakerEmbeddingsList)};\n`;
+str += `export const animationList: string[] = ${JSON.stringify(animationList)};\n`;
 
 fs.writeFileSync(path.join(__dirname, './../src/paths.ts'), str);

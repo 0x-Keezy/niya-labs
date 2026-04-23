@@ -27,8 +27,6 @@ import {
   ArrowTopRightOnSquareIcon,
 } from '@heroicons/react/24/outline';
 
-import logo from '/public/logo.png';
-
 export function basicPage(
   title: string,
   description: React.ReactNode,

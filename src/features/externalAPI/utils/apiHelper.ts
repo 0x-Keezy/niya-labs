@@ -65,9 +65,7 @@ export const writeFile = (filePath: string, content: any): void => {
     fs.writeFileSync(filePath, JSON.stringify(content, null, 2), "utf8");
   } catch (error) {
     console.error(`Error writing file at ${filePath}:`, error);
-    // Swallow in production-like envs, throw only in dev
-    if (process.env.NODE_ENV !== "production") {
-      throw new Error(`Failed to write file: ${error}`);
-    }
+    // Production path returned early above; throw in dev/test.
+    throw new Error(`Failed to write file: ${error}`);
   }
 };
