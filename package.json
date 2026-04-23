@@ -33,7 +33,7 @@
     "@charcoal-ui/icons": "^3.21.0",
     "@charcoal-ui/theme": "^3.21.0",
     "@ducanh2912/next-pwa": "^10.2.9",
-    "@headlessui/react": "^1.7.19",
+    "@headlessui/react": "^2.2.10",
     "@heroicons/react": "^2.2.0",
     "@iwer/devui": "^0.1.1",
     "@mkkellogg/gaussian-splats-3d": "^0.4.7",
