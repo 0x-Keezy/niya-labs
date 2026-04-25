@@ -21,7 +21,7 @@ function describeError(err: unknown): MicroError {
       return { status: 400, message: 'Invalid contract address.' };
     return { status: err.status, message: err.message };
   }
-  return { message: 'Backend unreachable. Is the dev server running on localhost:5000?' };
+  return { message: 'Backend unreachable. Check your connection and try again.' };
 }
 
 export interface UseMicrostructureReturn {

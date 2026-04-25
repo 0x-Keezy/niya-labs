@@ -15,6 +15,8 @@
     "https://api.geckoterminal.com/*",
     "https://api.etherscan.io/*",
     "https://deep-index.moralis.io/*",
+    "https://niyaagent.com/*",
+    "https://www.niyaagent.com/*",
     "http://localhost:5000/*"
   ],
   "background": {

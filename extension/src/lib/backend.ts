@@ -3,12 +3,16 @@
 // Moralis, Grok-3-mini, etc.) live behind these endpoints so the keys
 // never ship in the extension bundle.
 //
-// During hackathon development the backend runs on localhost:5000 (Next.js
-// dev server). Post-hack this becomes a Vercel/Railway URL.
+// Build-time configurable via VITE_BACKEND_URL. Defaults to the live
+// production deploy at niyaagent.com so end-users (and judges) get a
+// working extension out of the box. For local development:
+//   VITE_BACKEND_URL=http://localhost:5000 npm run build
 
 import type { MicrostructureResult, Tier } from './types';
 
-const BACKEND_BASE = 'http://localhost:5000';
+const BACKEND_BASE =
+  (import.meta.env.VITE_BACKEND_URL as string | undefined) ??
+  'https://niyaagent.com';
 
 interface MicrostructureResponse {
   data: MicrostructureResult;

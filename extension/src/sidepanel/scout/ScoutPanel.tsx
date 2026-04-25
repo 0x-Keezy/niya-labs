@@ -45,7 +45,7 @@ function describeError(err: unknown): ScoutError {
     return { status: err.status, message: err.message };
   }
   return {
-    message: 'Backend unreachable. Is the dev server running on localhost:5000?',
+    message: 'Backend unreachable. Check your connection and try again.',
   };
 }
 
